@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout}" lang="zh_CN">
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+    <title th:text="${#themes.code('cas.login.pagetitle')}">CAS Acceptable Use Policy View</title>
+    <script type="text/javascript" th:src="@{${#themes.code('cas.javascript.common.file')}}"></script>
+    <script type="text/javascript" th:src="@{${#themes.code('cas.standard.js.file')}}"></script>
+</head>
+
+<body class="login-page">
+    <main role="main" class="container mt-3 mb-3">
+        <div layout:fragment="content" class="row">
+            <div class="col-md login">
+                <form method="post" id="fm1" th:object="${credential}" action="login" onsubmit="onLogin">
+                    <div class="alert alert-danger login-alert" th:if="${#fields.hasErrors('*')}">
+                        <span th:each="err : ${#fields.errors('*')}" th:utext="${err}">Example error</span>
+                    </div>
+
+                    <table class="table-box" cellspacing="0">
+                        <tr>
+                            <td class="input-images account-images"></td>
+                            <td><input class="input-box" placeholder="账  户" name="username" autocomplete="off" type="text"/></td>
+                        </tr>
+                    </table>
+                    <table class="table-box" cellspacing="0">
+                        <tr>
+                            <td class="input-images password-images"></td>
+                            <td><input class="input-box" placeholder="密   码" name="password" autocomplete="off" maxlength="16" type="password"/></td>
+                        </tr>
+                    </table>
+                    <table class="table-box" cellspacing="0">
+                        <tr>
+                            <td class="input-images capcha-images"></td>
+                            <td>
+                                <input class="input-box input-box-val" placeholder="验证码" name="capcha" autocomplete="off" maxlength="4" type="text"/>
+                                <img id="validateImg" th:src="@{/validateImage/refresh}"  class="capcha" onclick="changeImg()">
+                            </td>
+                        </tr>
+                    </table>
+
+                    <input type="hidden" name="execution" th:value="${flowExecutionKey}"/>
+                    <input type="hidden" name="_eventId" value="submit"/>
+                    <input type="hidden" name="geolocation"/>
+                    <input class="btn btn-primary btn-submit"
+                           th:unless="${recaptchaSiteKey != null AND recaptchaInvisible != null AND recaptchaSiteKey AND recaptchaInvisible}"
+                           name="submit"
+                           accesskey="l"
+                           th:value="#{screen.welcome.button.login}"
+                           tabindex="6"
+                           type="submit"
+                           value="Login3"
+                    />
+                </form>
+
+                <script type="text/javascript" th:inline="javascript">
+                    var i = [[#{screen.welcome.button.loginwip}]]
+                    $( document ).ready(function() {
+                        $("#fm1").submit(function () {
+                            $(":submit").attr("disabled", true);
+                            $(":submit").attr("value", i);
+                            console.log(i);
+                            return true;
+                        });
+                    });
+                </script>
+            </div>
+
+            <!--<div id="notices" class="col-md mt-3 mt-md-0 notices">-->
+                <!--<div th:replace="fragments/insecure :: insecure"><a href="fragments/insecure.html">非安全链接提醒</a></div>-->
+
+                <!--<div th:replace="fragments/cookies :: cookiesDisabled"><a href="fragments/cookies.html">cookies</a> fragment</div>-->
+                <!--<div th:replace="fragments/serviceui :: serviceUI"><a href="fragments/serviceui.html">service ui</a> fragment</div>-->
+                <!--<div th:replace="fragments/loginProviders :: loginProviders"><a href="fragments/loginProviders.html">loginProviders</a> fragment</div>-->
+            <!--</div>-->
+        </div>
+    </main>
+</body>
+</html>

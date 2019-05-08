@@ -1,0 +1,12 @@
+{
+  "@class": "org.apereo.cas.services.RegexRegisteredService",
+  "serviceId": "^(https|imaps|http)://xdata.plutoz.com.*",
+  "name": "XData",
+  "theme": "xdata",
+  "id": 10000010,
+  "description": "XData foundation sample service",
+  "evaluationOrder": 10,
+  "attributeReleasePolicy": {
+    "@class": "org.apereo.cas.services.ReturnAllAttributeReleasePolicy"
+  }
+}
